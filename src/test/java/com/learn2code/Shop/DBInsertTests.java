@@ -19,6 +19,7 @@ import java.sql.SQLException;
 public class DBInsertTests {
 
     private final String insertCustomer = "INSERT INTO customer(name, surname, email, address, age, phone_number) values (?, ?, ?, ?, ?, ?)";
+    private final String insertMerchant = "INSERT INTO merchant(name, email, address) values (?, ?, ?)";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -43,6 +44,25 @@ public class DBInsertTests {
                 ps.setString(4, customer.getAddress());
                 ps.setInt(5, customer.getAge());
                 ps.setString(6, customer.getPhoneNumber());
+                return ps;
+            }
+        });
+    }
+
+    @Test
+    public void createMerchant() {
+        Merchant merchant = new Merchant();
+        merchant.setName("merchant");
+        merchant.setEmail("email@email.learn2code.sk");
+        merchant.setAddress("address3");
+
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement ps = con.prepareStatement(insertMerchant);
+                ps.setString(1, merchant.getName());
+                ps.setString(2, merchant.getEmail());
+                ps.setString(3, merchant.getAddress());
                 return ps;
             }
         });
