@@ -18,7 +18,7 @@ public class Product {
     private String description;
     @NonNull
     private double price;
-    @NonNull
+    @Nullable
     private Timestamp createdAt;
     @NonNull
     private int available;
@@ -75,6 +75,7 @@ public class Product {
         this.price = price;
     }
 
+    @Nullable
     public Timestamp getCreatedAt() {
         return createdAt;
     }
