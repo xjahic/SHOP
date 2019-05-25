@@ -4,6 +4,7 @@ package com.learn2code.Shop;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learn2code.Shop.domain.Customer;
+import com.learn2code.Shop.domain.Merchant;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,6 +64,40 @@ public class RestControllerTests {
         });
         assert customers.size() == 1;
         Assert.assertEquals(customer, customers.get(0));
+    }
+
+    @Test
+    public void merchant() throws Exception {
+        // Add merchant
+        Merchant merchant = new Merchant("name", "email", "address");
+
+        String id = mockMvc.perform(post("/merchant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(merchant)))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+        merchant.setId(objectMapper.readValue(id, Integer.class));
+
+        // Get merchant
+        String merchantJson = mockMvc.perform(get("/merchant/" + merchant.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        Merchant returnedMerchant = objectMapper.readValue(merchantJson, Merchant.class);
+        Assert.assertEquals(merchant, returnedMerchant);
+
+        // Get all merchants
+        String listJson = mockMvc.perform(get("/merchant")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        List<Merchant> merchants = objectMapper.readValue(listJson, new TypeReference<List<Merchant>>() {
+        });
+
+        assert merchants.size() == 1;
+        Assert.assertEquals(merchant, merchants.get(0));
     }
 
 
