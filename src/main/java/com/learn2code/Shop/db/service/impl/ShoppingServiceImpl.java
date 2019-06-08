@@ -38,6 +38,11 @@ public class ShoppingServiceImpl implements ShoppingService {
             return new BuyProductResponse(false, "Customer with id: " + customerId + " doesn't exist");
         }
 
+        if (product.getAvailable() < request.getQuantity()) {
+            return new BuyProductResponse(false, "Not enough products in stock");
+        }
+
+
         Double customerMoney = customerAccountService.getMoney(customerId);
         if (customerMoney == null) {
             return new BuyProductResponse(false, "Customer with id: " + customerId + " doesn't have account");

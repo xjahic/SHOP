@@ -21,7 +21,7 @@ public class BoughtProductController {
         this.boughtProductService = boughtProductService;
     }
 
-    @GetMapping("{customerId")
+    @GetMapping("{customerId}")
     public ResponseEntity getByCustomerId(@PathVariable("customerId") int customerId) {
         List<BoughtProduct> boughtProductList = boughtProductService.getAllByCustomerId(customerId);
         return new ResponseEntity<>(boughtProductList, HttpStatus.OK);
