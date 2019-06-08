@@ -77,4 +77,9 @@ public class ProductRepository {
         final String sql = "delete from product where id = ?";
         jdbcTemplate.update(sql, id);
     }
+
+    public void updateAvailable(int id, int newAvailable) {
+        final String sql = "UPDATE product SET available = ? where id = ?";
+        jdbcTemplate.update(sql, newAvailable, id);
+    }
 }
