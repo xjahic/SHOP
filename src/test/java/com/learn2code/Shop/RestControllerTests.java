@@ -35,7 +35,7 @@ public class RestControllerTests {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private Merchant merchant;
+    private static Merchant merchant;
 
     @Before
     public void createMerchant() throws Exception {

@@ -32,7 +32,7 @@ public class DBServiceTests {
     @Autowired
     private ProductService productService;
 
-    private Merchant merchant;
+    private static Merchant merchant;
 
     @Before
     public void createMerchant() {
