@@ -7,16 +7,16 @@ import com.learn2code.Shop.db.service.api.request.UpdateProductRequest;
 import com.learn2code.Shop.domain.Customer;
 import com.learn2code.Shop.domain.Merchant;
 import com.learn2code.Shop.domain.Product;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @AutoConfigureMockMvc
@@ -37,7 +37,7 @@ public class RestControllerTests {
 
     private static Merchant merchant;
 
-    @Before
+    @BeforeEach
     public void createMerchant() throws Exception {
         if (merchant == null) {
             merchant = new Merchant("name", "email", "address");
@@ -70,7 +70,7 @@ public class RestControllerTests {
                 .andReturn().getResponse().getContentAsString();
 
         Product productFromRest = objectMapper.readValue(returnedProduct, Product.class);
-        Assert.assertEquals(product, productFromRest);
+        Assertions.assertEquals(product, productFromRest);
 
         // Get all products
         String listJson = mockMvc.perform(get("/product")
@@ -81,7 +81,7 @@ public class RestControllerTests {
         });
 
         assert products.size() == 1;
-        Assert.assertEquals(product, products.get(0));
+        Assertions.assertEquals(product, products.get(0));
 
         // Update product
         double updatePrice = product.getPrice() + 1;
@@ -140,7 +140,7 @@ public class RestControllerTests {
                 .andReturn().getResponse().getContentAsString();
 
         Customer returnedCustomer = objectMapper.readValue(customerJson, Customer.class);
-        Assert.assertEquals(customer, returnedCustomer);
+        Assertions.assertEquals(customer, returnedCustomer);
 
         // Get all customers
         String listJson = mockMvc.perform(get("/customer")
@@ -151,7 +151,7 @@ public class RestControllerTests {
         List<Customer> customers = objectMapper.readValue(listJson, new TypeReference<List<Customer>>() {
         });
         assert customers.size() == 1;
-        Assert.assertEquals(customer, customers.get(0));
+        Assertions.assertEquals(customer, customers.get(0));
     }
 
     @Test
@@ -165,7 +165,7 @@ public class RestControllerTests {
                 .andReturn().getResponse().getContentAsString();
 
         Merchant returnedMerchant = objectMapper.readValue(merchantJson, Merchant.class);
-        Assert.assertEquals(merchant, returnedMerchant);
+        Assertions.assertEquals(merchant, returnedMerchant);
 
         // Get all merchants
         String listJson = mockMvc.perform(get("/merchant")
@@ -177,7 +177,7 @@ public class RestControllerTests {
         });
 
         assert merchants.size() == 1;
-        Assert.assertEquals(merchant, merchants.get(0));
+        Assertions.assertEquals(merchant, merchants.get(0));
     }
 
 
